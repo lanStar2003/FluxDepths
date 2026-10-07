@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Things from the depths of the flux layer, for GT New Horizons: shard collectors that echo a sampled ore vein from the steam age on. Each module can be switched off in the config.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/lanStar2003/FluxDepths",
+		"updateUrl": "",
+		"authorList": ["lan"],
+		"credits": "Companion of FluxLite",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": ["gregtech", "visualprospecting"],
+		"dependencies": ["gregtech", "visualprospecting"],
+		"dependants": [],
+		"useDependencyInformation": true
+	}]
+}

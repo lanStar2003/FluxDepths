@@ -1,0 +1,50 @@
+itemGroup.fluxdepths=FluxDepths
+
+item.fluxdepths.imprinter.name=Vein Imprinter
+item.fluxdepths.imprint.name=Vein Imprint
+item.fluxdepths.imprint.of=Vein Imprint: %s
+fluxdepths.imprint.blank=Blank: right-click with a Vein Imprinter above a vein
+fluxdepths.imprint.dims=Found in: %s
+fluxdepths.imprint.world=Taken in %s (vein centre %d, %d)
+fluxdepths.imprint.lore=The echo of a shard in the depths. Put it into a shard collector.
+fluxdepths.imprinter.tip=Right-click inside a vein's area (the 3x3 chunks around it)\nto take the frequency of its shard in the flux depths.\nUses one sheet of paper; only veins the world really generated count.
+fluxdepths.imprinter.none=There is no vein here. Find one with a prospecting tool or the map, then stand inside its area.
+fluxdepths.imprinter.paper=You need a sheet of paper to take an imprint.
+fluxdepths.imprinter.ok=Imprinted: %s (%s)
+
+gt.blockmachines.fluxdepths.shard.steam.name=Steam Shard Collector
+gt.blockmachines.fluxdepths.shard.hp_steam.name=High Pressure Steam Shard Collector
+gt.blockmachines.fluxdepths.shard.lv.name=Basic Shard Collector
+gt.blockmachines.fluxdepths.shard.mv.name=Advanced Shard Collector
+gt.blockmachines.fluxdepths.shard.hv.name=Advanced Shard Collector II
+gt.blockmachines.fluxdepths.shard.ev.name=Elite Shard Collector
+gt.blockmachines.fluxdepths.shard.iv.name=Master Shard Collector
+fluxdepths.recipe.shard=Shard Collecting
+
+fluxdepths.shard.lore=Listens to a vein's shard in the flux depths through a pinhole and condenses one ore at a time
+fluxdepths.shard.speed=One ore every %s s (about %d per hour)
+fluxdepths.shard.steam=Steam: %d L/t
+fluxdepths.shard.eu=Power: %d EU/t
+fluxdepths.shard.imprints=Holds %d vein imprints (imprint slot + input slots), taking turns
+fluxdepths.shard.head=Drill tip: %s or better GT drill head, in an input slot
+fluxdepths.shard.fluid=Uses %d L of drilling fluid per ore
+fluxdepths.shard.world=Only echoes imprints taken in this world
+fluxdepths.shard.cap=Speed: %d%% of GTNH's Void Miner I
+fluxdepths.shard.echoing=Echoing: %s
+fluxdepths.shard.drill_left=Drill head: %d ores left
+
+fluxdepths.head.bronze=Bronze Drill Head
+fluxdepths.head.steel=Steel Drill Head
+fluxdepths.head.aluminium=Aluminium Drill Head
+fluxdepths.head.stainless_steel=Stainless Steel Drill Head
+fluxdepths.head.titanium=Titanium Drill Head
+fluxdepths.head.tungsten_steel=Tungstensteel Drill Head
+
+fluxdepths.status.idle=Idle
+fluxdepths.status.working=Working
+fluxdepths.status.no_imprint=No vein imprint
+fluxdepths.status.wrong_world=The imprint is from another world
+fluxdepths.status.no_head=Needs a drill head
+fluxdepths.status.no_fluid=Needs drilling fluid
+fluxdepths.status.output_full=Output full
+fluxdepths.status.disabled=Switched off in the config

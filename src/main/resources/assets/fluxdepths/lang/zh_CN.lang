@@ -1,0 +1,50 @@
+itemGroup.fluxdepths=通量深层
+
+item.fluxdepths.imprinter.name=印记拓印器
+item.fluxdepths.imprint.name=矿脉印记
+item.fluxdepths.imprint.of=矿脉印记：%s
+fluxdepths.imprint.blank=空白印记：用印记拓印器在矿脉上方右键制作
+fluxdepths.imprint.dims=出产于：%s
+fluxdepths.imprint.world=拓自 %s（矿脉中心 %d, %d）
+fluxdepths.imprint.lore=深层碎片的回响频率，放进碎片采集器
+fluxdepths.imprinter.tip=站在矿脉所在的区域（以矿脉为中心的 3×3 区块）右键，\n拓下这条矿脉在通量深层对应碎片的频率。\n每次消耗 1 张纸；只认世界生成时真实存在的矿脉。
+fluxdepths.imprinter.none=这里没有矿脉。先用探矿工具或地图找到矿脉，站到它的范围里再试。
+fluxdepths.imprinter.paper=需要一张纸来拓印。
+fluxdepths.imprinter.ok=已拓下：%s（%s）
+
+gt.blockmachines.fluxdepths.shard.steam.name=蒸汽碎片采集器
+gt.blockmachines.fluxdepths.shard.hp_steam.name=高压蒸汽碎片采集器
+gt.blockmachines.fluxdepths.shard.lv.name=基础碎片采集器
+gt.blockmachines.fluxdepths.shard.mv.name=进阶碎片采集器
+gt.blockmachines.fluxdepths.shard.hv.name=高级碎片采集器
+gt.blockmachines.fluxdepths.shard.ev.name=精英碎片采集器
+gt.blockmachines.fluxdepths.shard.iv.name=大师碎片采集器
+fluxdepths.recipe.shard=碎片采集
+
+fluxdepths.shard.lore=透过针孔聆听通量深层的矿脉碎片，一次凝结一块矿石
+fluxdepths.shard.speed=每 %s 秒凝结 1 块矿石（约 %d 块/小时）
+fluxdepths.shard.steam=消耗蒸汽：%d L/t
+fluxdepths.shard.eu=耗电：%d EU/t
+fluxdepths.shard.imprints=可放 %d 张矿脉印记（印记槽 + 输入槽），轮流产出
+fluxdepths.shard.head=开孔头：%s或更好的 GT 钻头，放进输入槽
+fluxdepths.shard.fluid=每块矿石消耗 %d L 钻井液
+fluxdepths.shard.world=只回响在本世界拓下的印记
+fluxdepths.shard.cap=速度为原版虚空采矿机 I 的 %d%%
+fluxdepths.shard.echoing=正在回响：%s
+fluxdepths.shard.drill_left=开孔头还能用 %d 次
+
+fluxdepths.head.bronze=青铜钻头
+fluxdepths.head.steel=钢钻头
+fluxdepths.head.aluminium=铝钻头
+fluxdepths.head.stainless_steel=不锈钢钻头
+fluxdepths.head.titanium=钛钻头
+fluxdepths.head.tungsten_steel=钨钢钻头
+
+fluxdepths.status.idle=空闲
+fluxdepths.status.working=工作中
+fluxdepths.status.no_imprint=没有矿脉印记
+fluxdepths.status.wrong_world=印记不属于这个世界
+fluxdepths.status.no_head=需要开孔头（GT 钻头）
+fluxdepths.status.no_fluid=需要钻井液
+fluxdepths.status.output_full=输出已满
+fluxdepths.status.disabled=已在配置中关闭
