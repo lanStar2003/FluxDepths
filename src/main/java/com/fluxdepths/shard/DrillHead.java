@@ -5,7 +5,8 @@ import java.util.Locale;
 /**
  * GT drill heads ({@code toolHeadDrill}) used as the tip that opens the pinhole into the depths. A head stays in the
  * input slot and wears out by chance: each ore has a 1 in {@link #ores} chance to use it up, so it lasts that many
- * ores on average. A collector takes heads of its own material or better.
+ * ores on average. The shard collector takes any GT drill head: these six have fixed values, any other material lasts
+ * {@link #derivedUses half its tool durability}; the fluid pumps still ask for a minimum one.
  */
 public enum DrillHead {
 
@@ -24,6 +25,14 @@ public enum DrillHead {
     DrillHead(String material, int ores) {
         this.material = material;
         this.ores = ores;
+    }
+
+    /** Fewest and most ores a head of a material not listed here lasts. */
+    public static final int MIN_USES = 32, MAX_USES = 16384;
+
+    /** Ores a drill head of a material not listed here lasts on average: half its GT tool durability, clamped. */
+    public static int derivedUses(long durability) {
+        return (int) Math.max(MIN_USES, Math.min(MAX_USES, durability / 2));
     }
 
     /** Whether one use wears out a head that lasts {@code uses} uses on average; {@code roll} is uniform in [0, 1). */

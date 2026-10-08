@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.enums.ToolDictNames;
@@ -81,6 +82,19 @@ public final class RecipeGuard {
         }
         FluxDepths.LOG.warn("GregTech did not take the recipe of {}; adding it as a plain ore recipe", what);
         GameRegistry.addRecipe(plain);
+    }
+
+    /** A shapeless recipe without tools, straight into Forge (GT adds nothing to one). */
+    public static void shapeless(String what, ItemStack output, Object... inputs) {
+        if (output == null) {
+            FluxDepths.LOG.warn("No recipe for {}: the item is not registered", what);
+            return;
+        }
+        for (Object o : inputs) if (o == null) {
+            FluxDepths.LOG.warn("No recipe for {}: an ingredient is not in this pack", what);
+            return;
+        }
+        GameRegistry.addRecipe(new ShapelessOreRecipe(output.copy(), inputs));
     }
 
     private static boolean emptyOre(IRecipe r) {

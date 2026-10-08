@@ -6,12 +6,13 @@ import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fluxdepths.client.HoloClient;
 import com.fluxdepths.fluid.Pumps;
+import com.fluxdepths.holo.HoloNet;
 import com.fluxdepths.item.ItemImprint;
 import com.fluxdepths.item.ItemImprinter;
 import com.fluxdepths.shard.Collectors;
 import com.fluxdepths.shard.ShardCrafting;
-import com.fluxdepths.shard.ShardRecipes;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -22,7 +23,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * FluxDepths: things from the depths of the flux layer, the energy sea under every world that FluxLite's network
- * runs through: shard collectors that echo ore veins, and fluid pumps that echo a chunk's underground fluid.
+ * runs through: the Flux Shard Collector that echoes ore veins, and fluid pumps that echo a chunk's underground fluid.
  */
 @Mod(
     modid = FluxDepths.MODID,
@@ -59,17 +60,15 @@ public class FluxDepths {
         // registered even when the module is off, so placed collectors keep their blocks
         Collectors.register();
         Pumps.register();
+        HoloNet.init();
+        if (e.getSide()
+            .isClient()) HoloClient.register();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
         if (Config.shardsEnabled) {
             if (Config.shardRecipes) ShardCrafting.register();
-            try {
-                ShardRecipes.addNeiPages();
-            } catch (Throwable t) {
-                LOG.error("Failed to add the shard collector NEI pages", t);
-            }
         }
         if (Config.pumpsEnabled) {
             if (Config.pumpRecipes) Pumps.registerCrafting();
