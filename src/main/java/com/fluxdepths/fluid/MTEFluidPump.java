@@ -17,6 +17,7 @@ import com.fluxdepths.Config;
 import com.fluxdepths.item.ItemImprint;
 import com.fluxdepths.shard.DrillHead;
 import com.fluxdepths.shard.DrillHeads;
+import com.fluxdepths.shard.ShardText;
 import com.fluxdepths.shard.ShardTextures;
 
 import gregtech.api.interfaces.ITexture;
@@ -139,6 +140,7 @@ public class MTEFluidPump extends MTEBasicMachine {
     @Override
     public void addAdditionalTooltipInformation(ItemStack stack, List<String> tooltip) {
         List<String> l = new ArrayList<>();
+        l.add(ShardText.machineType("fluxdepths.pump.type"));
         l.add(EnumChatFormatting.DARK_AQUA + StatCollector.translateToLocal("fluxdepths.pump.lore"));
         l.add(StatCollector.translateToLocalFormatted("fluxdepths.pump.speed", Math.round(share(tier) * 1000) / 10.0));
         l.add(StatCollector.translateToLocalFormatted("fluxdepths.shard.eu", tier.energy));

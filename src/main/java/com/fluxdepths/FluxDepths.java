@@ -15,6 +15,7 @@ import com.fluxdepths.shard.ShardRecipes;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -78,5 +79,10 @@ public class FluxDepths {
                 LOG.error("Failed to add the fluid pump NEI pages", t);
             }
         }
+    }
+
+    @Mod.EventHandler
+    public void loadComplete(FMLLoadCompleteEvent e) {
+        RecipeGuard.check();
     }
 }

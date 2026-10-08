@@ -18,6 +18,7 @@ public final class ShardText {
 
     public static String[] description(ShardTier tier) {
         List<String> l = new ArrayList<>();
+        l.add(machineType("fluxdepths.shard.type"));
         l.add(EnumChatFormatting.DARK_AQUA + t("lore"));
         l.add(t("speed", fmt(tier.ticks / 20.0), Math.round(tier.perHour())));
         l.add(tier.steam() ? t("steam", tier.energy) : t("eu", tier.energy));
@@ -35,6 +36,14 @@ public final class ShardText {
             EnumChatFormatting.DARK_GRAY
                 + t("cap", Math.round(tier.perSecond() / ShardTier.VOID_MINER_PER_SECOND * 100)));
         return l.toArray(new String[0]);
+    }
+
+    /** GT's "Machine Type: X" line, as its own machines have it ({@code GT5U.MBTT.MachineType} is GT's lang key). */
+    public static String machineType(String typeKey) {
+        return StatCollector.translateToLocal("GT5U.MBTT.MachineType") + ": "
+            + EnumChatFormatting.YELLOW
+            + StatCollector.translateToLocal(typeKey)
+            + EnumChatFormatting.RESET;
     }
 
     private static String fmt(double seconds) {
