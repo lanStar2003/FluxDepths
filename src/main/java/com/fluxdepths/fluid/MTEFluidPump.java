@@ -30,12 +30,14 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 /**
  * Fluid pump, LV to HV: a GT single-block machine with a fluid imprint in its special slot. Every second it echoes a
  * share of the imprinted chunk's underground fluid into its output tank; the chunk itself is never drained. A drill
- * head in the input opens the pinhole and lasts for a number of seconds.
+ * head in the input opens the pinhole; it stays there and wears out by chance, {@link PumpTier#seconds} seconds on
+ * average.
  */
 public class MTEFluidPump extends MTEBasicMachine {
 
     private final PumpTier tier;
-    private int drillLeft;
+    /** Average seconds the drill head in use lasts (0: none yet), for Waila; not saved. */
+    private int headSeconds;
     private String status = "idle";
 
     public MTEFluidPump(int id, PumpTier tier) {
@@ -90,17 +92,15 @@ public class MTEFluidPump extends MTEBasicMachine {
 
         int headSlot = -1;
         DrillHead head = null;
-        if (drillLeft <= 0) {
-            int first = getInputSlot();
-            for (int i = first; i < first + mInputSlotCount && head == null; i++) {
-                DrillHead h = DrillHeads.of(mInventory[i]);
-                if (tier.takes(h)) {
-                    head = h;
-                    headSlot = i;
-                }
+        int first = getInputSlot();
+        for (int i = first; i < first + mInputSlotCount && head == null; i++) {
+            DrillHead h = DrillHeads.of(mInventory[i]);
+            if (tier.takes(h)) {
+                head = h;
+                headSlot = i;
             }
-            if (head == null) return idle("no_head");
         }
+        if (head == null) return idle("no_head");
 
         FluidStack out = new FluidStack(fluid, litres);
         if (!canOutput(out)) {
@@ -108,12 +108,11 @@ public class MTEFluidPump extends MTEBasicMachine {
             status = "output_full";
             return 1;
         }
-        if (head != null) {
+        headSeconds = PumpTier.seconds(head);
+        if (DrillHead.wears(headSeconds, world.rand.nextDouble())) {
             mInventory[headSlot].stackSize--;
             if (mInventory[headSlot].stackSize <= 0) mInventory[headSlot] = null;
-            drillLeft += PumpTier.seconds(head);
         }
-        drillLeft--;
         mOutputFluid = out;
         mEUt = tier.energy;
         mMaxProgresstime = PumpTier.CYCLE;
@@ -155,23 +154,11 @@ public class MTEFluidPump extends MTEBasicMachine {
     }
 
     @Override
-    public void saveNBTData(NBTTagCompound t) {
-        super.saveNBTData(t);
-        t.setInteger("fdDrillLeft", drillLeft);
-    }
-
-    @Override
-    public void loadNBTData(NBTTagCompound t) {
-        super.loadNBTData(t);
-        drillLeft = Math.max(0, t.getInteger("fdDrillLeft"));
-    }
-
-    @Override
     public void getWailaNBTData(EntityPlayerMP player, TileEntity tile, NBTTagCompound tag, World world, int x, int y,
         int z) {
         super.getWailaNBTData(player, tile, tag, world, x, y, z);
         tag.setString("fdPump", status);
-        tag.setInteger("fdDrillLeft", drillLeft);
+        tag.setInteger("fdHeadSeconds", headSeconds);
     }
 
     @Override
@@ -184,6 +171,9 @@ public class MTEFluidPump extends MTEBasicMachine {
         EnumChatFormatting color = "working".equals(st) ? EnumChatFormatting.AQUA
             : "idle".equals(st) ? EnumChatFormatting.GRAY : EnumChatFormatting.GOLD;
         tip.add(color + StatCollector.translateToLocal("fluxdepths.pump.status." + st));
-        tip.add(StatCollector.translateToLocalFormatted("fluxdepths.pump.drill_left", tag.getInteger("fdDrillLeft")));
+        int seconds = tag.getInteger("fdHeadSeconds");
+        if (seconds > 0) tip.add(
+            StatCollector
+                .translateToLocalFormatted("fluxdepths.pump.drill_wear", Math.max(1, Math.round(seconds / 60.0))));
     }
 }

@@ -27,12 +27,13 @@ fluxdepths.shard.speed=One ore every %s s (about %d per hour)
 fluxdepths.shard.steam=Steam: %d L/t
 fluxdepths.shard.eu=Power: %d EU/t
 fluxdepths.shard.imprints=Holds %d vein imprints (imprint slot + input slots), taking turns
-fluxdepths.shard.head=Drill tip: %s or better GT drill head, in an input slot
+fluxdepths.shard.head=Drill tip: %s or better GT drill head, in an input slot; it stays there
+fluxdepths.shard.wear=Each ore has a %s%% chance to wear out one drill head (one per %d ores on average); better heads last longer
 fluxdepths.shard.fluid=Uses %d L of drilling fluid per ore
 fluxdepths.shard.world=Only echoes imprints taken in this world
 fluxdepths.shard.cap=Speed: %d%% of GTNH's Void Miner I
 fluxdepths.shard.echoing=Echoing: %s
-fluxdepths.shard.drill_left=Drill head: %d ores left
+fluxdepths.shard.drill_wear=Drill head: %s%% wear chance per ore (one per %d ores on average)
 
 fluxdepths.head.bronze=Bronze Drill Head
 fluxdepths.head.steel=Steel Drill Head
@@ -64,9 +65,9 @@ fluxdepths.recipe.fluid_pump=Fluid Echo
 
 fluxdepths.pump.lore=Echoes a chunk's underground fluid through a pinhole; the chunk itself never runs dry
 fluxdepths.pump.speed=Gives %s%% of the imprint's pristine amount per second
-fluxdepths.pump.head=Drill tip: %s or better GT drill head, in the input slot; one lasts about %d min
+fluxdepths.pump.head=Drill tip: %s or better GT drill head, in the input slot; it stays there and wears out by chance, one per %d min on average
 fluxdepths.pump.world=Only echoes fluid imprints taken in this world
-fluxdepths.pump.drill_left=Drill head: %d s left
+fluxdepths.pump.drill_wear=Drill head: wears out by chance, one per %d min on average
 fluxdepths.pump.status.idle=Idle
 fluxdepths.pump.status.working=Working
 fluxdepths.pump.status.disabled=Switched off in the config

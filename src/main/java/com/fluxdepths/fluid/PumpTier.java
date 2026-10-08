@@ -16,7 +16,7 @@ public enum PumpTier {
 
     /** Ticks per cycle: one second. */
     public static final int CYCLE = 20;
-    /** Seconds of pumping per ore a drill head lasts for in a shard collector: a steel head runs about an hour. */
+    /** Seconds of pumping per ore a drill head lasts in a shard collector: a steel head runs an hour on average. */
     public static final int SECONDS_PER_ORE = 15;
 
     public final int gtTier;
@@ -35,7 +35,7 @@ public enum PumpTier {
         return name().toLowerCase();
     }
 
-    /** Seconds one drill head keeps a pump running. */
+    /** Seconds one drill head keeps a pump running, on average. */
     public static int seconds(DrillHead head) {
         return head.ores * SECONDS_PER_ORE;
     }

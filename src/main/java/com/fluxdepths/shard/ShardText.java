@@ -28,6 +28,7 @@ public final class ShardText {
                 StatCollector.translateToLocal(
                     "fluxdepths.head." + tier.minHead.name()
                         .toLowerCase())));
+        l.add(t("wear", DrillHead.percent(tier.minHead.ores), tier.minHead.ores));
         if (tier.fluidPerOre > 0) l.add(t("fluid", tier.fluidPerOre));
         l.add(t("world"));
         l.add(
@@ -42,7 +43,7 @@ public final class ShardText {
 
     public static void wailaData(ShardState s, NBTTagCompound tag) {
         tag.setInteger("fdStatus", s.status.ordinal());
-        tag.setInteger("fdDrillLeft", s.drillLeft);
+        tag.setInteger("fdHeadUses", s.headUses);
         tag.setString("fdVein", s.lastVein);
     }
 
@@ -58,6 +59,7 @@ public final class ShardText {
                     .toLowerCase()));
         Veins.Vein v = Veins.get(tag.getString("fdVein"));
         if (v != null && st == ShardState.Status.WORKING) tip.add(t("echoing", v.displayName()));
-        tip.add(t("drill_left", tag.getInteger("fdDrillLeft")));
+        int uses = tag.getInteger("fdHeadUses");
+        if (uses > 0) tip.add(t("drill_wear", DrillHead.percent(uses), uses));
     }
 }

@@ -2,7 +2,7 @@ package com.fluxdepths.shard;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-/** What a collector keeps between cycles: how far the current drill head still goes, and whose turn it is. */
+/** What a collector keeps between cycles: whose turn it is; and for Waila, how long its drill head lasts. */
 public final class ShardState {
 
     public enum Status {
@@ -16,8 +16,8 @@ public final class ShardState {
         DISABLED
     }
 
-    /** Ores the drill head in use still lasts for. */
-    public int drillLeft;
+    /** Average ores the drill head in use lasts for (0: none yet), for Waila; not saved. */
+    public int headUses;
     /** Index of the imprint whose turn is next. */
     public int next;
     public Status status = Status.IDLE;
@@ -25,12 +25,10 @@ public final class ShardState {
     public String lastVein = "";
 
     public void save(NBTTagCompound t) {
-        t.setInteger("fdDrillLeft", drillLeft);
         t.setInteger("fdNext", next);
     }
 
     public void load(NBTTagCompound t) {
-        drillLeft = Math.max(0, t.getInteger("fdDrillLeft"));
         next = Math.max(0, t.getInteger("fdNext"));
     }
 }
