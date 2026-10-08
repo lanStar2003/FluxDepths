@@ -76,14 +76,20 @@ public final class CollectorScreen {
         GL11.glPopMatrix();
     }
 
-    /** Under the imprints how many it uses, under the outputs how fast it makes ore. */
-    public static void captions(MTEFluxCollector m, float x, float y, float w, float h) {
-        ShardTier tier = m.tier();
-        GL11.glPushMatrix();
-        GL11.glTranslatef(x, y, 0);
-        smallCentered(ShardText.imprintCaption(m.state().imprints, tier.imprints), 18, 2, 0.75f, DIM, 1f);
-        smallCentered(ShardText.speedCaption(tier), 94, 2, 0.75f, DIM, 1f);
-        GL11.glPopMatrix();
+    /** Under the imprints: how many it uses of how many the tier takes. */
+    public static void imprintCaption(MTEFluxCollector m, float x, float y, float w, float h) {
+        smallCentered(
+            ShardText.imprintCaption(m.state().imprints, m.tier().imprints),
+            x + w / 2.0,
+            y + 2,
+            0.75f,
+            DIM,
+            1f);
+    }
+
+    /** Under the outputs: ores a minute at this tier. */
+    public static void speedCaption(MTEFluxCollector m, float x, float y, float w, float h) {
+        smallCentered(ShardText.speedCaption(m.tier()), x + w / 2.0, y + 2, 0.75f, DIM, 1f);
     }
 
     /** Power, speed and the drill head; the vein; and the buffer (EU or steam). */

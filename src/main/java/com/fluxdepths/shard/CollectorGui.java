@@ -102,9 +102,13 @@ public final class CollectorGui {
                 .setPos(6, 5)
                 .setSize(164, 14));
         b.widget(
-            new DrawableWidget().setDrawable((x, y, w, h, partial) -> CollectorScreen.captions(m, x, y, w, h))
+            new DrawableWidget().setDrawable((x, y, w, h, partial) -> CollectorScreen.imprintCaption(m, x, y, w, h))
                 .setPos(31, 62)
-                .setSize(112, 20));
+                .setSize(36, 9));
+        b.widget(
+            new DrawableWidget().setDrawable((x, y, w, h, partial) -> CollectorScreen.speedCaption(m, x, y, w, h))
+                .setPos(107, 62)
+                .setSize(36, 9));
         b.widget(
             new DrawableWidget().setDrawable((x, y, w, h, partial) -> CollectorScreen.readout(m, x, y, w, h))
                 .setPos(6, 88)
