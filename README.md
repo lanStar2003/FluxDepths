@@ -61,12 +61,12 @@ FluxLite 的网络把电送进 **通量层**：现实之下、贯穿所有世界
 
 ## 任务书
 
-`quests/` 里有两条任务线，可以导入 GTNH 的任务书：
+任务书现在由 [FluxEcho](https://github.com/lanStar2003/FluxEcho) 提供：
 
-- **私货 · 懒人AE**：开局勾选就送一整套 AE2。ME 自供能控制器自带无限能源，其余是驱动器、存储元件、终端、接口、分子装配室、两组合成 CPU、样板、升级卡、线缆和各种总线。量按撑到 EV 准备，因为 GTNH 要到 EV 才能自己做 AE。这条线不依赖本模组。
 - **通量深层 · 碎片采集器**：世界观、拓印、七台采集器逐级教程，最后交接给原版虚空采矿机。
+- 原来放在这里的 **私货 · 懒人AE** 也一起搬过去了。
 
-导入方法见 [quests/README.md](quests/README.md)。
+FluxEcho 启动时会把任务线自动装进 `config/betterquesting/DefaultQuests`，再执行一次 `/bq_admin default load` 就能看到。任务 ID 没变，以前导入过的进度会保留。碎片采集器这条线只在装了 FluxDepths 时安装。
 
 ## 配置
 
@@ -86,5 +86,4 @@ GT 机器 ID 24520–24526 在 GTNH 2.8.4 及其常见中文附属里都没有�
 - 依赖：GT5-Unofficial 5.09.51.482、VisualProspecting 1.4.8（都是 GTNH 2.8.4 自带的）。
 - `./gradlew build`：编译、格式检查、单元测试。
 - 纹理由 `tools/Textures.java` 生成：`java tools/Textures.java`。
-- 任务书由 `quests/build_quests.py` 生成：`python quests/build_quests.py`。任务 ID 由固定的键算出来，重新生成后 ID 不变，进度也不会丢。
 - 推送 `X.Y.Z` 标签后，CI 会构建并发布 GitHub Release，更新说明取自 CHANGELOG 的对应小节。

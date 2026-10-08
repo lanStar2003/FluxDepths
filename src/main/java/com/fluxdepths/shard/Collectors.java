@@ -42,12 +42,4 @@ public final class Collectors {
         ItemStack s = STACKS.get(tier);
         return s == null ? null : s.copy();
     }
-
-    /** Whether the stack is one of the collectors (they share GT's machine item, told apart by damage). */
-    public static boolean isCollector(ItemStack stack) {
-        ItemStack first = STACKS.get(ShardTier.STEAM);
-        if (stack == null || first == null || stack.getItem() != first.getItem()) return false;
-        int tier = stack.getItemDamage() - Config.shardsFirstId;
-        return tier >= 0 && tier < ShardTier.values().length;
-    }
 }
