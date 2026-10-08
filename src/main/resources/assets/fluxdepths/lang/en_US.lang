@@ -1,6 +1,6 @@
 itemGroup.fluxdepths=FluxDepths
 
-item.fluxdepths.imprinter.name=Vein Imprinter
+item.fluxdepths.imprinter.name=Depth Imprinter
 item.fluxdepths.imprint.name=Vein Imprint
 item.fluxdepths.imprint.of=Vein Imprint: %s
 fluxdepths.imprint.blank=Blank: right-click with a Vein Imprinter above a vein
@@ -8,6 +8,7 @@ fluxdepths.imprint.dims=Found in: %s
 fluxdepths.imprint.world=Taken in %s (vein centre %d, %d)
 fluxdepths.imprint.lore=The echo of a shard in the depths. Put it into a shard collector.
 fluxdepths.imprinter.tip=Right-click inside a vein's area (the 3x3 chunks around it)\nto take the frequency of its shard in the flux depths.\nUses one sheet of paper; only veins the world really generated count.
+Sneak-right-click: take the underground fluid (oil, gas, ...) of the chunk underfoot, for a fluid pump.
 fluxdepths.imprinter.none=There is no vein here. Find one with a prospecting tool or the map, then stand inside its area.
 fluxdepths.imprinter.paper=You need a sheet of paper to take an imprint.
 fluxdepths.imprinter.ok=Imprinted: %s (%s)
@@ -48,3 +49,29 @@ fluxdepths.status.no_head=Needs a drill head
 fluxdepths.status.no_fluid=Needs drilling fluid
 fluxdepths.status.output_full=Output full
 fluxdepths.status.disabled=Switched off in the config
+
+item.fluxdepths.imprint.fluid=Fluid Imprint: %s
+fluxdepths.imprint.amount=Pristine amount: %d L (what GT's drilling rigs get per operation)
+fluxdepths.imprint.chunk=Taken in %s (chunk %d, %d)
+fluxdepths.imprint.fluid_lore=The echo of a fluid in the depths. Put it into a fluid pump.
+fluxdepths.imprinter.no_fluid=There is no underground fluid under this chunk.
+fluxdepths.imprinter.fluid_ok=Imprinted fluid: %s (pristine amount %d L)
+
+gt.blockmachines.fluxdepths.pump.lv.name=Basic Fluid Echo Pump
+gt.blockmachines.fluxdepths.pump.mv.name=Advanced Fluid Echo Pump
+gt.blockmachines.fluxdepths.pump.hv.name=Advanced Fluid Echo Pump II
+fluxdepths.recipe.fluid_pump=Fluid Echo
+
+fluxdepths.pump.lore=Echoes a chunk's underground fluid through a pinhole; the chunk itself never runs dry
+fluxdepths.pump.speed=Gives %s%% of the imprint's pristine amount per second
+fluxdepths.pump.head=Drill tip: %s or better GT drill head, in the input slot; one lasts about %d min
+fluxdepths.pump.world=Only echoes fluid imprints taken in this world
+fluxdepths.pump.drill_left=Drill head: %d s left
+fluxdepths.pump.status.idle=Idle
+fluxdepths.pump.status.working=Working
+fluxdepths.pump.status.disabled=Switched off in the config
+fluxdepths.pump.status.no_imprint=No fluid imprint
+fluxdepths.pump.status.wrong_world=The imprint is from another world
+fluxdepths.pump.status.dry=The imprinted chunk has no fluid
+fluxdepths.pump.status.no_head=Needs a drill head
+fluxdepths.pump.status.output_full=Output full
