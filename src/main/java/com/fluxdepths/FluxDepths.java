@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fluxdepths.fluid.Pumps;
 import com.fluxdepths.item.ItemImprint;
 import com.fluxdepths.item.ItemImprinter;
 import com.fluxdepths.shard.Collectors;
@@ -20,7 +21,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * FluxDepths: things from the depths of the flux layer, the energy sea under every world that FluxLite's network
- * runs through. Its first module are the shard collectors.
+ * runs through: shard collectors that echo ore veins, and fluid pumps that echo a chunk's underground fluid.
  */
 @Mod(
     modid = FluxDepths.MODID,
@@ -56,16 +57,26 @@ public class FluxDepths {
     public void init(FMLInitializationEvent e) {
         // registered even when the module is off, so placed collectors keep their blocks
         Collectors.register();
+        Pumps.register();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
-        if (!Config.shardsEnabled) return;
-        if (Config.shardRecipes) ShardCrafting.register();
-        try {
-            ShardRecipes.addNeiPages();
-        } catch (Throwable t) {
-            LOG.error("Failed to add the shard collector NEI pages", t);
+        if (Config.shardsEnabled) {
+            if (Config.shardRecipes) ShardCrafting.register();
+            try {
+                ShardRecipes.addNeiPages();
+            } catch (Throwable t) {
+                LOG.error("Failed to add the shard collector NEI pages", t);
+            }
+        }
+        if (Config.pumpsEnabled) {
+            if (Config.pumpRecipes) Pumps.registerCrafting();
+            try {
+                Pumps.addNeiPages();
+            } catch (Throwable t) {
+                LOG.error("Failed to add the fluid pump NEI pages", t);
+            }
         }
     }
 }

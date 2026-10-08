@@ -8,6 +8,7 @@ fluxdepths.imprint.dims=出产于：%s
 fluxdepths.imprint.world=拓自 %s（矿脉中心 %d, %d）
 fluxdepths.imprint.lore=深层碎片的回响频率，放进碎片采集器
 fluxdepths.imprinter.tip=站在矿脉所在的区域（以矿脉为中心的 3×3 区块）右键，\n拓下这条矿脉在通量深层对应碎片的频率。\n每次消耗 1 张纸；只认世界生成时真实存在的矿脉。
+潜行右键：拓下脚下区块的地下流体（石油、天然气等），给流体回响泵用。
 fluxdepths.imprinter.none=这里没有矿脉。先用探矿工具或地图找到矿脉，站到它的范围里再试。
 fluxdepths.imprinter.paper=需要一张纸来拓印。
 fluxdepths.imprinter.ok=已拓下：%s（%s）
@@ -48,3 +49,29 @@ fluxdepths.status.no_head=需要开孔头（GT 钻头）
 fluxdepths.status.no_fluid=需要钻井液
 fluxdepths.status.output_full=输出已满
 fluxdepths.status.disabled=已在配置中关闭
+
+item.fluxdepths.imprint.fluid=流体印记：%s
+fluxdepths.imprint.amount=原始储量：%d L（GT 钻井每次作业的产量）
+fluxdepths.imprint.chunk=拓自 %s（区块 %d, %d）
+fluxdepths.imprint.fluid_lore=深层流体的回响频率，放进流体回响泵
+fluxdepths.imprinter.no_fluid=这个区块下面没有地下流体。
+fluxdepths.imprinter.fluid_ok=已拓下流体：%s（原始储量 %d L）
+
+gt.blockmachines.fluxdepths.pump.lv.name=基础流体回响泵
+gt.blockmachines.fluxdepths.pump.mv.name=进阶流体回响泵
+gt.blockmachines.fluxdepths.pump.hv.name=高级流体回响泵
+fluxdepths.recipe.fluid_pump=流体回响
+
+fluxdepths.pump.lore=透过针孔回响一个区块的地下流体，区块本身永不枯竭
+fluxdepths.pump.speed=每秒产出印记原始储量的 %s%%
+fluxdepths.pump.head=开孔头：%s或更好的 GT 钻头，放进输入槽，每个约用 %d 分钟
+fluxdepths.pump.world=只回响在本世界拓下的流体印记
+fluxdepths.pump.drill_left=开孔头还能用 %d 秒
+fluxdepths.pump.status.idle=空闲
+fluxdepths.pump.status.working=工作中
+fluxdepths.pump.status.disabled=已在配置中关闭
+fluxdepths.pump.status.no_imprint=没有流体印记
+fluxdepths.pump.status.wrong_world=印记不属于这个世界
+fluxdepths.pump.status.dry=印记上的区块没有流体
+fluxdepths.pump.status.no_head=需要开孔头（GT 钻头）
+fluxdepths.pump.status.output_full=输出已满

@@ -14,6 +14,9 @@ public final class ShardTextures {
         FRONT_GLOW = icon("front_active_glow"), TOP = icon("top"), TOP_ACTIVE = icon("top_active"),
         TOP_GLOW = icon("top_active_glow");
 
+    public static final IIconContainer PUMP = icon("pump_front"), PUMP_ACTIVE = icon("pump_front_active"),
+        PUMP_GLOW = icon("pump_front_active_glow");
+
     private ShardTextures() {}
 
     private static IIconContainer icon(String name) {
@@ -40,6 +43,16 @@ public final class ShardTextures {
         ITexture[] t = new ITexture[14];
         t[2] = front(true);
         t[3] = front(false);
+        t[4] = top(true);
+        t[5] = top(false);
+        return t;
+    }
+
+    /** The fluid pumps: their own front, the collectors' grille on top. */
+    public static ITexture[] pumpOverlays() {
+        ITexture[] t = new ITexture[14];
+        t[2] = TextureFactory.of(TextureFactory.of(PUMP_ACTIVE), glow(PUMP_GLOW));
+        t[3] = TextureFactory.of(PUMP);
         t[4] = top(true);
         t[5] = top(false);
         return t;

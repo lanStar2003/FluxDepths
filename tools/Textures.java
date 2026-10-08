@@ -17,6 +17,9 @@ public class Textures {
         grille(false, false, "blocks/collector/top");
         grille(true, false, "blocks/collector/top_active");
         grille(true, true, "blocks/collector/top_active_glow");
+        pump(false, false, "blocks/collector/pump_front");
+        pump(true, false, "blocks/collector/pump_front_active");
+        pump(true, true, "blocks/collector/pump_front_active_glow");
         imprinter("items/imprinter");
         imprint("items/imprint");
     }
@@ -73,6 +76,31 @@ public class Textures {
                     glow = true;
                 } else c = 0x161A22;
             } else c = 0x2A2F38;
+            if (c != 0 && (!glowOnly || glow)) img.setRGB(x, y, rgb(c));
+        }
+        save(img, name);
+    }
+
+    /** The fluid pump's front: a bolted flange around the pinhole; when active, the echoed fluid ripples in it. */
+    static void pump(boolean active, boolean glowOnly, String name) throws Exception {
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 1; y <= 14; y++) for (int x = 1; x <= 14; x++) {
+            double d = dist(x, y);
+            boolean flange = x <= 2 || x >= 13 || y <= 2 || y >= 13;
+            boolean bolt = (x == 2 || x == 13) && (y == 2 || y == 13) || (x == 2 || x == 13) && (y == 7 || y == 8)
+                || (y == 2 || y == 13) && (x == 7 || x == 8);
+            int c = 0;
+            boolean glow = false;
+            if (bolt) c = 0xA9B2BF;
+            else if (flange) c = (x <= 2 || y <= 2) ? 0x6B7380 : 0x353A43;
+            else if (d >= 3.9) c = d < 4.9 ? ((x + y < 15) ? 0x7A8494 : 0x2E333B) : 0x272B33;
+            else if (!active) c = ((x * 5 + y * 3) % 9 == 0) ? 0x1E3442 : 0x10141C;
+            else {
+                double wave = Math.sin(d * 2.2 - Math.atan2(y - 7.5, x - 7.5));
+                if (d < 1.2) c = 0xE6FFF6;
+                else c = wave > 0.3 ? 0x7FF0D0 : (wave > -0.4 ? 0x2FC0A8 : 0x16736A);
+                glow = d < 3.2;
+            }
             if (c != 0 && (!glowOnly || glow)) img.setRGB(x, y, rgb(c));
         }
         save(img, name);
