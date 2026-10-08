@@ -15,7 +15,8 @@ import gregtech.api.metatileentity.implementations.MTEBasicMachine;
 
 /**
  * One cycle of a shard collector, in the place of GT's recipe lookup: take the next imprint's turn, make sure the
- * drill head and drilling fluid are there, and condense one ore of that vein.
+ * drill head and drilling fluid are there, and condense one ore of that vein. The drill head stays in its slot and
+ * wears out by chance ({@link DrillHead#wears}).
  */
 public final class ShardWork {
 
@@ -56,18 +57,16 @@ public final class ShardWork {
 
         int headSlot = -1;
         DrillHead head = null;
-        if (s.drillLeft <= 0) {
-            for (int i = first; i < end && head == null; i++) {
-                DrillHead h = DrillHeads.of(mte.mInventory[i]);
-                if (tier.takes(h)) {
-                    head = h;
-                    headSlot = i;
-                }
+        for (int i = first; i < end && head == null; i++) {
+            DrillHead h = DrillHeads.of(mte.mInventory[i]);
+            if (tier.takes(h)) {
+                head = h;
+                headSlot = i;
             }
-            if (head == null) {
-                s.status = ShardState.Status.NO_HEAD;
-                return NOTHING;
-            }
+        }
+        if (head == null) {
+            s.status = ShardState.Status.NO_HEAD;
+            return NOTHING;
         }
 
         FluidStack tank = null;
@@ -92,11 +91,11 @@ public final class ShardWork {
         }
 
         s.next = (turn + 1) % veins.size();
-        if (head != null) {
+        if (DrillHead.wears(head.ores, world.rand.nextDouble())) {
             mte.mInventory[headSlot].stackSize--;
-            s.drillLeft += head.ores;
+            if (mte.mInventory[headSlot].stackSize <= 0) mte.mInventory[headSlot] = null;
         }
-        s.drillLeft--;
+        s.headUses = head.ores;
         if (tank != null) tank.amount -= tier.fluidPerOre;
         mte.mOutputItems[0] = ore;
         mte.mEUt = tier.energy;
