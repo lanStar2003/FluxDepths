@@ -11,6 +11,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.fluxdepths.Config;
 import com.fluxdepths.FluxDepths;
+import com.fluxdepths.RecipeGuard;
 import com.fluxdepths.item.ItemImprint;
 import com.fluxdepths.shard.Collectors;
 import com.fluxdepths.shard.ShardTier;
@@ -27,7 +28,6 @@ import gregtech.api.objects.GTUODimension;
 import gregtech.api.objects.GTUOFluid;
 import gregtech.api.recipe.RecipeMap;
 import gregtech.api.recipe.RecipeMapBuilder;
-import gregtech.api.util.GTModHandler;
 
 /**
  * The three fluid pumps as GT machines on consecutive ids from {@link Config#pumpsFirstId}, their recipe map (GUI and
@@ -148,9 +148,9 @@ public final class Pumps {
 
     private static void recipe(PumpTier tier, ItemStack below, ItemList hull, Materials circuit, ItemList pump,
         Materials pipe) {
-        GTModHandler.addCraftingRecipe(
+        RecipeGuard.shaped(
+            tier.name() + " Fluid Pump",
             get(tier),
-            GTModHandler.RecipeBits.NOT_REMOVABLE,
             new Object[] { "CPC", "UHU", "TXT", 'C', OrePrefixes.circuit.get(circuit), 'P', OrePrefixes.plate.get(pipe),
                 'U', pump.get(1), 'H', hull.get(1), 'T', OrePrefixes.pipeMedium.get(pipe), 'X', below });
     }

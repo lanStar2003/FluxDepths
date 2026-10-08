@@ -4,11 +4,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
 import com.fluxdepths.FluxDepths;
+import com.fluxdepths.RecipeGuard;
 
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
-import gregtech.api.util.GTModHandler;
 
 /**
  * Crafting table recipes. The imprinter and the steam collector are bronze-age (ender pearls are the link to the
@@ -17,29 +17,27 @@ import gregtech.api.util.GTModHandler;
  */
 public final class ShardCrafting {
 
-    private static final long BITS = GTModHandler.RecipeBits.NOT_REMOVABLE;
-
     private ShardCrafting() {}
 
     public static void register() {
         try {
             ItemStack pearl = new ItemStack(Items.ender_pearl);
-            GTModHandler.addCraftingRecipe(
+            RecipeGuard.shaped(
+                "Imprinter",
                 new ItemStack(FluxDepths.imprinter),
-                BITS,
                 new Object[] { "PGP", "SCS", "dRh", 'P', plate(Materials.Bronze), 'G', "paneGlass", 'S',
                     OrePrefixes.screw.get(Materials.Bronze), 'C', new ItemStack(Items.compass), 'R',
                     OrePrefixes.stick.get(Materials.Bronze) });
 
-            GTModHandler.addCraftingRecipe(
+            RecipeGuard.shaped(
+                "Steam Shard Collector",
                 Collectors.get(ShardTier.STEAM),
-                BITS,
                 new Object[] { "PEP", "GHG", "TDT", 'P', plate(Materials.Bronze), 'E', pearl, 'G',
                     OrePrefixes.gearGt.get(Materials.Bronze), 'H', ItemList.Hull_Bronze.get(1), 'T',
                     OrePrefixes.pipeMedium.get(Materials.Bronze), 'D', head(DrillHead.BRONZE) });
-            GTModHandler.addCraftingRecipe(
+            RecipeGuard.shaped(
+                "High Pressure Steam Shard Collector",
                 Collectors.get(ShardTier.HP_STEAM),
-                BITS,
                 new Object[] { "PEP", "GHG", "TXT", 'P', plate(Materials.Steel), 'E', pearl, 'G',
                     OrePrefixes.gearGt.get(Materials.Steel), 'H', ItemList.Hull_HP.get(1), 'T',
                     OrePrefixes.pipeMedium.get(Materials.Steel), 'X', Collectors.get(ShardTier.STEAM) });
@@ -91,9 +89,9 @@ public final class ShardCrafting {
 
     private static void electric(ShardTier tier, ShardTier from, Materials circuit, ItemList sensor, ItemList motor,
         ItemList hull, Materials cable) {
-        GTModHandler.addCraftingRecipe(
+        RecipeGuard.shaped(
+            tier.name() + " Shard Collector",
             Collectors.get(tier),
-            BITS,
             new Object[] { "CSC", "MHM", "WXW", 'C', OrePrefixes.circuit.get(circuit), 'S', sensor.get(1), 'M',
                 motor.get(1), 'H', hull.get(1), 'W', OrePrefixes.cableGt01.get(cable), 'X', Collectors.get(from) });
     }

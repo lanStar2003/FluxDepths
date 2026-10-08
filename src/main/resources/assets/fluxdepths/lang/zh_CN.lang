@@ -76,3 +76,6 @@ fluxdepths.pump.status.wrong_world=印记不属于这个世界
 fluxdepths.pump.status.dry=印记上的区块没有流体
 fluxdepths.pump.status.no_head=需要开孔头（GT 钻头）
 fluxdepths.pump.status.output_full=输出已满
+
+fluxdepths.shard.type=虚空采矿
+fluxdepths.pump.type=地下流体抽取

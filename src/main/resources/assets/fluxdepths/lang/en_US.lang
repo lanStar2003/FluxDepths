@@ -76,3 +76,6 @@ fluxdepths.pump.status.wrong_world=The imprint is from another world
 fluxdepths.pump.status.dry=The imprinted chunk has no fluid
 fluxdepths.pump.status.no_head=Needs a drill head
 fluxdepths.pump.status.output_full=Output full
+
+fluxdepths.shard.type=Void Mining
+fluxdepths.pump.type=Underground Fluid Pumping
