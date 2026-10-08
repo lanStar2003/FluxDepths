@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
+import gregtech.api.objects.ItemData;
 import gregtech.api.util.GTOreDictUnificator;
 import gregtech.api.util.GTUtility;
 
@@ -32,6 +33,20 @@ public final class DrillHeads {
     public static ItemStack item(DrillHead h) {
         ItemStack s = items().get(h);
         return s == null ? null : s.copy();
+    }
+
+    /**
+     * Ores the stack lasts as a drill head in a shard collector, on average; 0 when it is no GT drill head. The six
+     * listed heads have their fixed values, any other material {@link DrillHead#derivedUses half its durability}.
+     */
+    public static int uses(ItemStack stack) {
+        if (stack == null) return 0;
+        DrillHead h = of(stack);
+        if (h != null) return h.ores;
+        ItemData d = GTOreDictUnificator.getAssociation(stack);
+        if (d == null || d.mPrefix != OrePrefixes.toolHeadDrill || d.mMaterial == null || d.mMaterial.mMaterial == null)
+            return 0;
+        return DrillHead.derivedUses(d.mMaterial.mMaterial.mDurability);
     }
 
     /** Which head the stack is, or null. */

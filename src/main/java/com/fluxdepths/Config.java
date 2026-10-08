@@ -19,6 +19,7 @@ public final class Config {
     public static int shardsFirstId = 24520;
     public static boolean crossDimension = false;
     public static boolean shardRecipes = true;
+    public static int hologramRange = 16;
 
     public static boolean pumpsEnabled = true;
     public static int pumpsFirstId = 24527;
@@ -38,7 +39,7 @@ public final class Config {
         Configuration c = new Configuration(file);
         c.setCategoryComment(
             SHARDS,
-            "Shard collectors: single-block machines that echo a sampled ore vein, from the steam age to IV.");
+            "The Flux Shard Collector: one machine that echoes a sampled ore vein, on steam or, with an LV to LuV circuit in its core, at that voltage.");
         shardsEnabled = c.getBoolean(
             "enabled",
             SHARDS,
@@ -50,12 +51,19 @@ public final class Config {
             shardsFirstId,
             1,
             32000,
-            "First of the 7 GT machine ids the collectors use. Change it only for a new world or when another mod takes these ids.");
+            "First of the 7 GT machine ids the collector uses (the collector, then the six ids the old tiered collectors had). Change it only for a new world or when another mod takes these ids.");
         crossDimension = c.getBoolean(
             "crossDimension",
             SHARDS,
             crossDimension,
             "Let imprints (vein and fluid) work in any world, not only the one they were taken in.");
+        hologramRange = c.getInt(
+            "hologramRange",
+            SHARDS,
+            hologramRange,
+            0,
+            64,
+            "Blocks within which a collector's hologram shows (each collector's hologram is off until switched on in its GUI or with a screwdriver). 0 turns all holograms off.");
         shardRecipes = c.getBoolean(
             "enableDefaultRecipes",
             SHARDS,

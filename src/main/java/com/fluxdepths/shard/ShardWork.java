@@ -11,12 +11,12 @@ import com.fluxdepths.Config;
 import com.fluxdepths.item.ItemImprint;
 
 import gregtech.api.enums.ItemList;
-import gregtech.api.metatileentity.implementations.MTEBasicMachine;
 
 /**
- * One cycle of a shard collector, in the place of GT's recipe lookup: take the next imprint's turn, make sure the
- * drill head and drilling fluid are there, and condense one ore of that vein. The drill head stays in its slot and
- * wears out by chance ({@link DrillHead#wears}).
+ * One cycle of the Flux Shard Collector, in the place of GT's recipe lookup: take the next imprint's turn, make sure
+ * there is a drill head and, from MV on, drilling fluid, and condense one ore of that vein. The core circuit sets the
+ * tier; the drill head stays in its slot and wears out by chance ({@link DrillHead#wears}), the better the head the
+ * rarer.
  */
 public final class ShardWork {
 
@@ -25,23 +25,21 @@ public final class ShardWork {
 
     private ShardWork() {}
 
-    public static int check(ShardMachine m) {
-        MTEBasicMachine mte = m.machine();
+    public static int check(MTEFluxCollector m) {
         ShardTier tier = m.tier();
         ShardState s = m.state();
         if (!Config.shardsEnabled) {
             s.status = ShardState.Status.DISABLED;
             return NOTHING;
         }
-        World world = mte.getBaseMetaTileEntity()
+        World world = m.getBaseMetaTileEntity()
             .getWorld();
         int dim = world.provider.dimensionId;
 
         List<Veins.Vein> veins = new ArrayList<>(tier.imprints);
         boolean foreign = false;
-        int first = mte.getInputSlot(), end = first + mte.mInputSlotCount;
-        for (int i = -1; i < end - first && veins.size() < tier.imprints; i++) {
-            ItemStack st = mte.mInventory[i < 0 ? mte.getSpecialSlotIndex() : first + i];
+        for (int i = 0; i < ShardTier.MAX_IMPRINTS && veins.size() < tier.imprints; i++) {
+            ItemStack st = m.mInventory[m.imprintSlot(i)];
             Veins.Vein v = Veins.get(ItemImprint.vein(st));
             if (v == null) continue;
             if (!Config.crossDimension && ItemImprint.dim(st) != dim) {
@@ -50,21 +48,16 @@ public final class ShardWork {
             }
             veins.add(v);
         }
+        s.imprints = veins.size();
         if (veins.isEmpty()) {
             s.status = foreign ? ShardState.Status.WRONG_WORLD : ShardState.Status.NO_IMPRINT;
             return NOTHING;
         }
 
-        int headSlot = -1;
-        DrillHead head = null;
-        for (int i = first; i < end && head == null; i++) {
-            DrillHead h = DrillHeads.of(mte.mInventory[i]);
-            if (tier.takes(h)) {
-                head = h;
-                headSlot = i;
-            }
-        }
-        if (head == null) {
+        int headSlot = m.headSlot();
+        int uses = DrillHeads.uses(m.mInventory[headSlot]);
+        s.headUses = uses;
+        if (uses <= 0) {
             s.status = ShardState.Status.NO_HEAD;
             return NOTHING;
         }
@@ -86,20 +79,19 @@ public final class ShardWork {
         ore.stackSize = 1;
         if (!m.fits(ore)) {
             s.status = ShardState.Status.OUTPUT_FULL;
-            mte.mOutputBlocked++;
+            m.mOutputBlocked++;
             return BLOCKED;
         }
 
         s.next = (turn + 1) % veins.size();
-        if (DrillHead.wears(head.ores, world.rand.nextDouble())) {
-            mte.mInventory[headSlot].stackSize--;
-            if (mte.mInventory[headSlot].stackSize <= 0) mte.mInventory[headSlot] = null;
+        if (DrillHead.wears(uses, world.rand.nextDouble())) {
+            m.mInventory[headSlot].stackSize--;
+            if (m.mInventory[headSlot].stackSize <= 0) m.mInventory[headSlot] = null;
         }
-        s.headUses = head.ores;
         if (tank != null) tank.amount -= tier.fluidPerOre;
-        mte.mOutputItems[0] = ore;
-        mte.mEUt = tier.energy;
-        mte.mMaxProgresstime = tier.ticks;
+        m.mOutputItems[0] = ore;
+        m.mEUt = tier.energy;
+        m.mMaxProgresstime = tier.ticks;
         s.status = ShardState.Status.WORKING;
         s.lastVein = vein.name;
         return STARTED;

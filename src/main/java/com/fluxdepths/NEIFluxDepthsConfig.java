@@ -5,9 +5,14 @@ import java.util.regex.Pattern;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 
+import com.fluxdepths.nei.VeinHandler;
+import com.fluxdepths.shard.Collectors;
+
 import codechicken.nei.SearchField;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IConfigureNEI;
+import codechicken.nei.recipe.GuiRecipeTab;
+import codechicken.nei.recipe.HandlerInfo;
 import codechicken.nei.search.ModNameFilter;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
@@ -15,12 +20,15 @@ import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.common.blocks.ItemMachines;
 
 /**
- * NEI plugin (NEI finds it by its name). The collectors are GT machines, items of GregTech's machine block, so NEI's
- * "@mod" search only finds them under GregTech. This replaces the "@" search with one that also finds any GT machine
- * under the mod its name starts with ({@code "fluxdepths.shard.lv"} under FluxDepths).
- * <p>
- * NEI keeps only the last provider registered for a prefix, so FluxEcho ships the same filter: whichever wins, both
- * mods' machines are found.
+ * NEI plugin (NEI finds it by its name).
+ * <ul>
+ * <li>The Flux Shard Collector's own page ({@link VeinHandler}): a tab of its own with the collector as its icon and
+ * catalyst. The old tiered collectors are hidden.</li>
+ * <li>The collectors are GT machines, items of GregTech's machine block, so NEI's "@mod" search only finds them under
+ * GregTech. This replaces the "@" search with one that also finds any GT machine under the mod its name starts with
+ * ({@code "fluxdepths.shard.collector"} under FluxDepths). NEI keeps only the last provider registered for a prefix,
+ * so FluxEcho ships the same filter: whichever wins, both mods' machines are found.</li>
+ * </ul>
  */
 public class NEIFluxDepthsConfig implements IConfigureNEI {
 
@@ -28,6 +36,25 @@ public class NEIFluxDepthsConfig implements IConfigureNEI {
     public void loadConfig() {
         API.addSearchProvider(
             new SearchField.SearchParserProvider('@', "modName", EnumChatFormatting.LIGHT_PURPLE, Filter::new));
+
+        VeinHandler veins = new VeinHandler();
+        API.registerRecipeHandler(veins);
+        API.registerUsageHandler(veins);
+        ItemStack collector = Collectors.main();
+        HandlerInfo.Builder info = new HandlerInfo.Builder(VeinHandler.ID, FluxDepths.NAME, FluxDepths.MODID)
+            .setHeight(VeinHandler.HEIGHT)
+            .setWidth(VeinHandler.WIDTH)
+            .setMaxRecipesPerPage(2);
+        if (collector != null) {
+            info.setDisplayStack(collector);
+            API.addRecipeCatalyst(collector, VeinHandler.ID);
+        }
+        // NEI rebuilds its tab table when it loads handler info, merging what mods hand it; whichever comes first, the
+        // tab keeps its size and icon
+        HandlerInfo built = info.build();
+        GuiRecipeTab.handlerMap.put(VeinHandler.ID, built);
+        GuiRecipeTab.handlerAdderFromIMC.put(VeinHandler.ID, built);
+        for (ItemStack old : Collectors.legacy()) API.hideItem(old);
     }
 
     @Override

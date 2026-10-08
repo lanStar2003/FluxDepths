@@ -42,6 +42,13 @@ class DrillHeadTest {
     }
 
     @Test
+    void otherMaterialsLastHalfTheirDurability() {
+        assertEquals(256, DrillHead.derivedUses(512));
+        assertEquals(DrillHead.MIN_USES, DrillHead.derivedUses(10));
+        assertEquals(DrillHead.MAX_USES, DrillHead.derivedUses(Long.MAX_VALUE));
+    }
+
+    @Test
     void betterHeadsLastLonger() {
         DrillHead[] all = DrillHead.values();
         for (int i = 1; i < all.length; i++) assertTrue(all[i].ores > all[i - 1].ores);

@@ -20,6 +20,13 @@ public class Textures {
         pump(false, false, "blocks/collector/pump_front");
         pump(true, false, "blocks/collector/pump_front_active");
         pump(true, true, "blocks/collector/pump_front_active_glow");
+        casing("side", "blocks/collector/casing_side");
+        casing("top", "blocks/collector/casing_top");
+        casing("bottom", "blocks/collector/casing_bottom");
+        strip("blocks/collector/strip");
+        core(false, false, "blocks/collector/core");
+        coreAnimated(false, "blocks/collector/core_active");
+        coreAnimated(true, "blocks/collector/core_active_glow");
         imprinter("items/imprinter");
         imprint("items/imprint");
     }
@@ -104,6 +111,97 @@ public class Textures {
             if (c != 0 && (!glowOnly || glow)) img.setRGB(x, y, rgb(c));
         }
         save(img, name);
+    }
+
+    /**
+     * The Flux Shard Collector's own casing (it is not a GT hull): dark plates with a bevel, flux seams and rivets.
+     * The side leaves its middle for the tier strip, the top for the grille.
+     */
+    static void casing(String kind, String name) throws Exception {
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++) {
+            int c = ((x * 13 + y * 7) % 5 == 0) ? 0x1F2630 : 0x1B212A;
+            if (x == 0 || y == 0) c = 0x46525F;
+            else if (x == 15 || y == 15) c = 0x0B0E13;
+            else if (x == 1 || y == 1) c = 0x2C3540;
+            else if (x == 14 || y == 14) c = 0x12161C;
+            switch (kind) {
+                case "side" -> {
+                    if ((x == 3 || x == 12) && y >= 3 && y <= 12) c = 0x0E1218;
+                    if ((x == 4 || x == 11) && y >= 3 && y <= 12) c = 0x2A3440;
+                    if (y == 2 && x >= 3 && x <= 12 || y == 13 && x >= 3 && x <= 12) c = 0x16324A;
+                }
+                case "top" -> {
+                    if (x >= 2 && x <= 13 && (y == 2 || y == 13) || y >= 2 && y <= 13 && (x == 2 || x == 13))
+                        c = 0x16324A;
+                }
+                case "bottom" -> {
+                    if (y >= 4 && y <= 11 && x >= 3 && x <= 12) c = y % 2 == 0 ? 0x0A0D11 : 0x2A3440;
+                }
+                default -> {}
+            }
+            if ((x == 2 || x == 13) && (y == 2 || y == 13)) c = 0x6B7686;
+            img.setRGB(x, y, rgb(c));
+        }
+        save(img, name);
+    }
+
+    /** The side's glow strip, white so GT can tint it in the tier's colour: a rail with a diamond in the middle. */
+    static void strip(String name) throws Exception {
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        for (int y = 3; y <= 12; y++) for (int x = 6; x <= 9; x++) {
+            int d = Math.abs(x * 2 - 15) + Math.abs(y * 2 - 15);
+            int c = 0;
+            if (x == 7 || x == 8) c = (y == 3 || y == 12) ? 0x9A9A9A : 0xE6E6E6;
+            if (d <= 5) c = d <= 2 ? 0xFFFFFF : 0xD0D0D0;
+            if (c != 0) img.setRGB(x, y, rgb(c));
+        }
+        save(img, name);
+    }
+
+    /** The core lens in front: an octagonal frame around a dark well. */
+    static void core(boolean active, boolean glowOnly, String name) throws Exception {
+        BufferedImage img = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        drawCore(img, 0, active, glowOnly, 0);
+        save(img, name);
+    }
+
+    /** The lit core, eight frames turning (with an .mcmeta so Minecraft animates it). */
+    static void coreAnimated(boolean glowOnly, String name) throws Exception {
+        int frames = 8;
+        BufferedImage img = new BufferedImage(16, 16 * frames, BufferedImage.TYPE_INT_ARGB);
+        for (int f = 0; f < frames; f++) drawCore(img, f * 16, true, glowOnly, f * Math.PI * 2 / frames / 3);
+        save(img, name);
+        File meta = new File(ROOT + name + ".png.mcmeta");
+        java.nio.file.Files.write(meta.toPath(), "{\n  \"animation\": { \"frametime\": 2 }\n}\n".getBytes());
+        System.out.println("wrote " + meta);
+    }
+
+    static void drawCore(BufferedImage img, int oy, boolean active, boolean glowOnly, double turn) {
+        for (int y = 0; y < 16; y++) for (int x = 0; x < 16; x++) {
+            double dx = x - 7.5, dy = y - 7.5;
+            double oct = Math.max(Math.max(Math.abs(dx), Math.abs(dy)), (Math.abs(dx) + Math.abs(dy)) / 1.414);
+            double d = Math.hypot(dx, dy);
+            int c = 0;
+            boolean glow = false;
+            if (oct >= 5.6 && oct < 7.4) {
+                c = dx + dy < 0 ? 0x7A8494 : 0x2E333B;
+                if (oct >= 6.6) c = 0x16324A;
+            } else if (oct < 5.6) {
+                if (!active) {
+                    c = d < 1.5 ? 0x24495E : ((x * 7 + y * 3) % 11 == 0 ? 0x1E3442 : 0x0E1219);
+                } else {
+                    double a = Math.atan2(dy, dx) + turn;
+                    double swirl = Math.sin(a * 3 - d * 1.3);
+                    if (d < 1.3) c = 0xF2FFFF;
+                    else if (d < 2.6) c = swirl > -0.2 ? 0x9AF0FF : 0x5FC8FF;
+                    else if (d < 3.9) c = swirl > 0.1 ? 0x6A8CFF : 0x3E52D8;
+                    else c = swirl > 0.45 ? 0x7A4CE0 : 0x2A1D5E;
+                    glow = d < 3.9 || swirl > 0.45;
+                }
+            }
+            if (c != 0 && (!glowOnly || glow)) img.setRGB(x, oy + y, rgb(c));
+        }
     }
 
     /** A bronze rod with a lens at its tip, like a tuning fork that listens to the ground. */

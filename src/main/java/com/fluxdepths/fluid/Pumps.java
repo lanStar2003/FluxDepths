@@ -14,7 +14,6 @@ import com.fluxdepths.FluxDepths;
 import com.fluxdepths.RecipeGuard;
 import com.fluxdepths.item.ItemImprint;
 import com.fluxdepths.shard.Collectors;
-import com.fluxdepths.shard.ShardTier;
 
 import gregtech.GTMod;
 import gregtech.api.GregTechAPI;
@@ -115,14 +114,14 @@ public final class Pumps {
     }
 
     /**
-     * Each pump is built from the one below it (the LV one from an LV shard collector), a hull, two circuits, two
+     * Each pump is built from the one below it (the LV one from a Flux Shard Collector), a hull, two circuits, two
      * electric pumps, two fluid pipes and a plate.
      */
     public static void registerCrafting() {
         try {
             recipe(
                 PumpTier.LV,
-                Collectors.get(ShardTier.LV),
+                Collectors.main(),
                 ItemList.Hull_LV,
                 Materials.LV,
                 ItemList.Electric_Pump_LV,
