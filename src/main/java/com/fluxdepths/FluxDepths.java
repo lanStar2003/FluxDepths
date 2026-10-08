@@ -24,12 +24,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
  */
 @Mod(
     modid = FluxDepths.MODID,
-    name = "FluxDepths",
+    name = FluxDepths.NAME,
     version = Tags.VERSION,
     dependencies = "required-after:gregtech;required-after:visualprospecting")
 public class FluxDepths {
 
     public static final String MODID = "fluxdepths";
+    public static final String NAME = "FluxDepths";
     public static final Logger LOG = LogManager.getLogger("FluxDepths");
 
     public static Item imprinter, imprint;

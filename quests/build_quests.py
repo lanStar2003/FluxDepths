@@ -1,8 +1,12 @@
 """
 Writes the FluxDepths quest lines in GTNH's BetterQuesting layout (config/betterquesting/DefaultQuests).
 Run from the repository root: python quests/build_quests.py
-Output: quests/DefaultQuests/{QuestLines,Quests}/... and quests/DefaultQuests/QuestLinesOrder.add.txt
+Output: quests/DefaultQuests/{QuestLines,Quests}/... and quests/DefaultQuests/QuestLinesOrder.txt
 Quest ids are derived from fixed keys, so running it again keeps the same ids (and the players' progress).
+
+/bq_admin default load only loads the quest lines listed in QuestLinesOrder.txt, so the output carries the whole
+file: GTNH's own order (QuestLinesOrder.gtnh.txt, from GTNH 2.8.4) with these lines at the end. That way the
+output folder can be copied over an instance's DefaultQuests as it is.
 """
 import base64
 import json
@@ -11,7 +15,9 @@ import shutil
 import struct
 import uuid
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "DefaultQuests")
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "DefaultQuests")
+GTNH_ORDER = os.path.join(HERE, "QuestLinesOrder.gtnh.txt")
 NS = uuid.UUID("6f1c2d6a-3a0b-4b51-9a57-7f1d2e9c4b10")
 FIRST_ID = 24520  # shard_collectors.firstMachineId
 
@@ -278,6 +284,9 @@ if __name__ == "__main__":
     if os.path.isdir(OUT):
         shutil.rmtree(OUT)
     order = [lazy_ae(), shards()]
-    with open(os.path.join(OUT, "QuestLinesOrder.add.txt"), "w", encoding="utf-8", newline="\n") as f:
-        f.write("\n".join(order) + "\n")
+    mine = {entry.split(":")[0] for entry in order}
+    with open(GTNH_ORDER, encoding="utf-8-sig") as f:
+        gtnh = [entry for entry in f.read().splitlines() if entry.strip() and entry.split(":")[0] not in mine]
+    with open(os.path.join(OUT, "QuestLinesOrder.txt"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(gtnh + order) + "\n")
     print("\n".join(order))

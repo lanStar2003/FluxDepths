@@ -1,5 +1,12 @@
 # 更新日志
 
+## 0.1.1
+
+- NEI 里用 `@FluxDepths` 能搜到 7 台碎片采集器了。它们是 GT 机器，以前只能用 `@GregTech` 或名称搜到。
+- 任务书导入改为直接复制：`quests/DefaultQuests` 复制到实例的 `config/betterquesting/` 下覆盖即可。
+  - 附带完整的 `QuestLinesOrder.txt`（GTNH 2.8.4 原版顺序加上这两条）。BetterQuesting 只加载这个文件里列出的任务线，以前只复制文件夹的话任务线不会出现。
+  - 去掉导入脚本 `quests/install.ps1`。
+
 ## 0.1.0
 
 第一个版本：碎片采集器模块和两条任务线。
