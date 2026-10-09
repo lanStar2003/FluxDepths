@@ -1,5 +1,7 @@
 # FluxDepths（通量深层）
 
+> **FluxDepths 已并入 [FluxEcho](https://github.com/lanStar2003/FluxEcho)（0.8.0 起）。** 这个仓库不再更新。升级时先备份存档，删掉 `fluxdepths-*.jar`，换成 [FluxEcho 的最新版](https://github.com/lanStar2003/FluxEcho/releases/latest)；旧存档原样能用，不用任何转换。说明见 [docs/FluxDepths.md](https://github.com/lanStar2003/FluxEcho/blob/main/docs/FluxDepths.md)。
+
 GT New Horizons 2.8.4 的私货模组，和 [FluxLite](https://github.com/lanStar2003/FluxLite) 同一个世界观。每个模块都能在配置里单独关闭。
 
 两个模块：
